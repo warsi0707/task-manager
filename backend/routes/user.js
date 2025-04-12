@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const { USER_JWT_SECRET, NODE_ENV } = require('../Config/Config');
 const { Auth } = require('../middleware/Auth');
 
+//user signup
 userRouter.post("/signup", async (req, res) => {
     const { username, password, confirmPassword } = req.body;
 
@@ -35,6 +36,7 @@ userRouter.post("/signup", async (req, res) => {
         })
     }
 })
+//user signin
 userRouter.post("/signin", async(req, res)=>{
     const {username, password} = req.body;
 
@@ -72,6 +74,7 @@ userRouter.post("/signin", async(req, res)=>{
         })
     }
 })
+//auth verification
 userRouter.get('/verify',Auth, async(req, res)=>{
     const userId = req.user;
     try{
@@ -95,6 +98,7 @@ userRouter.get('/verify',Auth, async(req, res)=>{
         })
     }
 })
+//user logout
 userRouter.post("/logout",Auth,async(req, res)=>{
     const userId = req.user;
 
