@@ -33,7 +33,7 @@ const TaskSchema = new mongoose.Schema({
     },
     cretedAt: {
         type: Date,
-        default: Date.now
+        default: new Date
     },
 })
 

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useRef, useState } from "react";
 import { Link } from "react-router";
 import { IoMdMenu } from "react-icons/io";
 import { RxCross1 } from "react-icons/rx";
@@ -13,8 +13,33 @@ export default function Navbar() {
   const [isMenu, setIsMenu] = useState(false);
   const [addModel, setAddModel] = useState(false);
   const { authenticated, setAuthenticated } = useContext(AuthContext);
-  
-  const Logout = async () => {
+  const titleRef = useRef()
+  const contentRef = useRef()
+
+  const AddTask =async()=>{
+    const title= titleRef.current.value;
+    const content = contentRef.current.value;
+    try{
+      const response = await fetch(`${BackendUrl}/task`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({title, content})
+      })
+      const result = await response.json()
+      if(response.ok){
+        setAddModel(false)
+        toast.success(result.message)
+      }else{
+        toast.error(result.mesage)
+      }
+    }catch(error){
+      toast.error(error.message)
+    }
+  }
+  const Logout =useCallback( async () => {
     try {
       const response = await fetch(`${BackendUrl}/user/logout`, {
         method: "POST",
@@ -30,7 +55,7 @@ export default function Navbar() {
     } catch (error) {
       toast.error(error.mesage);
     }
-  };
+  },[])
 
   return (
     <>
@@ -98,12 +123,13 @@ export default function Navbar() {
               <div className="flex flex-col gap-5">
                 <h1 className="text-3xl text-center">Add Your Task</h1>
                 <div className="flex flex-col gap-5">
-                  <AddTaskInput label={"Title"} placeholder={"Title"} />
+                  <AddTaskInput refs={titleRef} label={"Title"} placeholder={"Title"} />
                   <AddTaskInput
+                  refs={contentRef}
                     label={"Content"}
                     placeholder={"Your content..."}
                   />
-                  <button className="w-full p-3 text-white transition-all duration-300 bg-blue-400 hover:bg-blue-500">
+                  <button onClick={AddTask} className="w-full p-3 text-white transition-all duration-300 bg-blue-400 hover:bg-blue-500">
                     Add
                   </button>
                 </div>

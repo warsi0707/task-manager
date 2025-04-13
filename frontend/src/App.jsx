@@ -3,7 +3,6 @@ import Home from "./pages/Home";
 import Navbar from "./component/Navbar";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import AddTask from "./pages/AddTask";
 import { useContext } from "react";
 import AuthContext from "./context/AuthContext";
 

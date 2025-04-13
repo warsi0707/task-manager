@@ -50,11 +50,11 @@ taskRouter.get("/", Auth, async (req, res)=>{
 taskRouter.put("/:id", Auth, async(req, res)=>{
     const userId = req.user;
     const {id} = req.params;
-    const {done} = req.body;
+    // const {done} = req.body;
 
     try{
         const markDone = await Task.findByIdAndUpdate(id,{
-            done: done
+            done: true
         })
         res.json({
             message: "Mark as done",

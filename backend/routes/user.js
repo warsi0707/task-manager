@@ -42,7 +42,6 @@ userRouter.post("/signin", async(req, res)=>{
 
     try{
         const findUser = await User.findOne({username})
-        console.log(findUser)
         if(!findUser){
             return res.status(404).json({
                 message: "User not found"

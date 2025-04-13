@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react'
+import React, { memo, useContext, useRef } from 'react'
 import LogInput from '../component/LogInput'
 import { Link, useNavigate } from 'react-router'
 import LogButton from '../component/LogButton'
@@ -6,7 +6,7 @@ import toast from 'react-hot-toast'
 import { BackendUrl } from '../utils/BackendUrl'
 import AuthContext from '../context/AuthContext'
 
-export default function Login() {
+ function Login() {
   const usernameRef = useRef()
   const passwordref = useRef()
   const navigate = useNavigate()
@@ -25,7 +25,6 @@ export default function Login() {
         body:JSON.stringify({username, password}) 
       })
       const result = await response.json()
-      console.log(result)
       if(response.ok){
         setAuthenticated(true)
         navigate("/")
@@ -56,3 +55,4 @@ export default function Login() {
   </div>
   )
 }
+export default memo(Login)

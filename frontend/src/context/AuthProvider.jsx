@@ -14,7 +14,6 @@ export default function AuthProvider({children}) {
                 credentials: "include",
               });
               const result = await response.json();
-              console.log(result)
               if (result.authenticated === true) {
                 setAuthenticated(true);
               } else {

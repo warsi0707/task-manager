@@ -1,29 +1,30 @@
-import React from "react";
+import React, { memo } from "react";
 import { FaTrashCanArrowUp } from "react-icons/fa6";
 import { IoCheckmarkDone } from "react-icons/io5";
-export default function Card() {
+
+ function Card({title, content, ondelete, done,onMarkAsdone}) {
   return (
-    <div className="p-5 bg-yellow-200 rounded-md w-60 min-h-60">
+    <div className={`${done === false &&'bg-green-500'} p-5 bg-yellow-200 rounded-md w-60 min-h-60`}>
       <p className="flex justify-end gap-5 text-xl">
-        <button>
+        <button onClick={onMarkAsdone}>
           <IoCheckmarkDone />
         </button>
-        <button>
+        <button onClick={ondelete}>
           <FaTrashCanArrowUp />
         </button>
       </p>
       <div className="flex flex-col justify-between gap-8">
         <div className="flex flex-col items-center justify-center gap-3">
-          <h1 className="text-3xl">Title</h1>
+          <h1 className="text-3xl">{title}</h1>
           <p className="text-center">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus,
-            magnam!
+            {content}
           </p>
         </div>
         <div className="flex justify-between">
-          <p>Date: 12/12/2025</p>
+          {/* <p>Date: {cretedAt }</p> */}
         </div>
       </div>
     </div>
   );
 }
+export default memo(Card)
