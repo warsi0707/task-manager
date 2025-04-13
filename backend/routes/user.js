@@ -19,7 +19,7 @@ userRouter.post("/signup", async (req, res) => {
         }
         if (password !== confirmPassword) {
             return res.status(404).json({
-                message: "password not same"
+                message: "password and confirm password not matched"
             })
         }
         const hashPassword = await bcrypt.hash(password, 10)

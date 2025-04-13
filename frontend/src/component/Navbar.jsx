@@ -1,20 +1,40 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router";
 import { IoMdMenu } from "react-icons/io";
 import { RxCross1 } from "react-icons/rx";
 import NavbarLink from "./NavbarLink";
 import SideBarLink from "./SideBarLink";
 import AddTaskInput from "./AddTaskInput";
-
-
+import toast from "react-hot-toast";
+import { BackendUrl } from "../utils/BackendUrl";
+import AuthContext from "../context/AuthContext";
 
 export default function Navbar() {
   const [isMenu, setIsMenu] = useState(false);
-  const [addModel, setAddModel] = useState(false)
+  const [addModel, setAddModel] = useState(false);
+  const { authenticated, setAuthenticated } = useContext(AuthContext);
+  
+  const Logout = async () => {
+    try {
+      const response = await fetch(`${BackendUrl}/user/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+      const result = await response.json();
+      if (response.ok) {
+        setAuthenticated(false);
+        toast.success(result.message);
+      } else {
+        toast.error(result.mesage);
+      }
+    } catch (error) {
+      toast.error(error.mesage);
+    }
+  };
 
   return (
     <>
-      <div className="flex justify-between w-full px-10 py-5 text-xl text-black border bg-slate-200 border-b-gray-300">
+      <div className="fixed top-0 flex justify-between w-full px-10 text-xl text-white border-b border-gray-500 py-7 bg-black/80 backdrop-blur-md">
         <Link
           to={"/"}
           className="transition-all duration-300 hover:text-gray-500"
@@ -22,14 +42,27 @@ export default function Navbar() {
           Home
         </Link>
         <div className="hidden gap-3 sm:flex">
-          <button onClick={()=> setAddModel(!addModel)}>Add</button>
-          {/* <NavbarLink link={"/task"} title={"Add"} /> */}
-          <NavbarLink link={"/login"} title={"Login"} />
-          <NavbarLink link={"/signup"} title={"Signup"} />
-
-          <button className="px-2 py-1 transition-all duration-300 rounded-md hover:bg-slate-400">
-            Logout
-          </button>
+          {authenticated ? (
+            <>
+              <button
+                className="mb-2 transition-all duration-300 hover:text-gray-500"
+                onClick={() => setAddModel(!addModel)}
+              >
+                Add
+              </button>
+              <button
+                onClick={Logout}
+                className="mb-2 transition-all duration-300 hover:text-gray-500"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <NavbarLink link={"/login"} title={"Login"} />
+              <NavbarLink link={"/signup"} title={"Signup"} />
+            </>
+          )}
         </div>
         <div className="flex text-3xl sm:hidden">
           <button onClick={() => setIsMenu(!isMenu)}>
@@ -37,8 +70,9 @@ export default function Navbar() {
           </button>
         </div>
       </div>
+      {/* ---Sidebar--- */}
       {isMenu && (
-        <div className="fixed right-0 bg-gray-600 w-[50vw] h-full sm:hidden">
+        <div className="fixed top-20 right-0 bg-black/80 backdrop-blur-md text-white w-[50vw] h-full sm:hidden ">
           <div className="flex flex-col gap-1">
             <SideBarLink link={"/task"} title={"Add"} />
             <SideBarLink link={"/login"} title={"Login"} />
@@ -47,29 +81,37 @@ export default function Navbar() {
           </div>
         </div>
       )}
-      {addModel &&
-      <>
-      <div className="fixed top-0 left-0 flex justify-center w-screen h-screen bg-slate-500 opacity-60">
-      </div>
-      <div className="fixed top-0 left-0 flex items-center justify-center w-screen h-screen mx-auto">
-        <div className="p-6 bg-white w-96 h-96">
-         <div className="flex justify-end">
-         <button onClick={()=> setAddModel(!addModel)} className="items-end"><RxCross1 /></button>
-         </div>
-         <div className="flex flex-col gap-5">
-          <h1 className="text-3xl text-center">Add Your Task</h1>
-         <div className="flex flex-col gap-5">
-          <AddTaskInput label={"Title"} placeholder={"Title"}/>
-          <AddTaskInput label={"Content"} placeholder={"Your content..."}/>
-            <button className="w-full p-3 text-white transition-all duration-300 bg-blue-400 hover:bg-blue-500">Add</button>
-     
-         </div>
-         </div>
-         
-        </div>
-      </div>
-      </>
-}
+      {/* ---Add Task Model --- */}
+      {addModel && (
+        <>
+          <div className="fixed top-0 left-0 flex justify-center w-screen h-screen opacity-90 bg-slate-900 backdrop-blur-md"></div>
+          <div className="fixed top-0 left-0 flex items-center justify-center w-screen h-screen mx-auto">
+            <div className="p-6 bg-white w-96 h-96">
+              <div className="flex justify-end">
+                <button
+                  onClick={() => setAddModel(!addModel)}
+                  className="items-end"
+                >
+                  <RxCross1 />
+                </button>
+              </div>
+              <div className="flex flex-col gap-5">
+                <h1 className="text-3xl text-center">Add Your Task</h1>
+                <div className="flex flex-col gap-5">
+                  <AddTaskInput label={"Title"} placeholder={"Title"} />
+                  <AddTaskInput
+                    label={"Content"}
+                    placeholder={"Your content..."}
+                  />
+                  <button className="w-full p-3 text-white transition-all duration-300 bg-blue-400 hover:bg-blue-500">
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }

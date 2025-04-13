@@ -4,17 +4,19 @@ import Navbar from "./component/Navbar";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import AddTask from "./pages/AddTask";
+import { useContext } from "react";
+import AuthContext from "./context/AuthContext";
 
 function App() {
+  const {authenticated} = useContext(AuthContext)
   return (
     <>
       <BrowserRouter>
       <Navbar/>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login/>} />
+          <Route path="/" element={authenticated?<Home />:<Login/>} />
+          <Route path="/login" element={authenticated?<Home />:<Login/>} />
           <Route path="/signup" element={<Signup/>} />
-          <Route path="/task" element={<AddTask/>} />
         </Routes>
       </BrowserRouter>
     </>

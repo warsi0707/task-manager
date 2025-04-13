@@ -2,16 +2,17 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
-
+import {Toaster} from 'react-hot-toast'
+import AuthProvider from "./context/authProvider.jsx";
 createRoot(document.getElementById("root")).render(
   // <StrictMode>
-    // <div class=" h-full w-full bg-white">
-    //   <div class=" -translate-x-[30%] translate-y-[20%] rounded-full bg-[rgba(173,109,244,0.5)] opacity-50 blur-[80px]">
-    <div className="w-full min-h-screen bg-blue-400">
-  <App />
-    </div>
+  <>
+    <div className=" h-full py-10 w-full  [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]">
+      <Toaster position="top-right"/>
+      <AuthProvider>
+      <App />
+      </AuthProvider>
       
-    //   </div>
-    // </div>
-  // </StrictMode>
+    </div>
+  </>
 );

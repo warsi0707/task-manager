@@ -25,7 +25,7 @@ const TaskSchema = new mongoose.Schema({
     content: String,
     done: {
         type: Boolean,
-        default: false
+        default: false 
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
