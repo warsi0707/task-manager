@@ -31,7 +31,7 @@ import AuthContext from '../context/AuthContext'
         toast.success(result.message)
       }else{
         setAuthenticated(false)
-        toast.error(result.message)
+        toast.error("Please wait")
       }
 
     }catch(error){
