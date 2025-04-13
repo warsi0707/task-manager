@@ -4,7 +4,7 @@ import { IoCheckmarkDone } from "react-icons/io5";
 
  function Card({title, content, ondelete, done,onMarkAsdone}) {
   return (
-    <div className={`${done === false &&'bg-green-500'} p-5 bg-yellow-200 rounded-md w-60 min-h-60`}>
+    <div className={`${done === false &&'bg-green-500'} ${done == true && 'bg-yellow-200'} p-5  rounded-md w-60 min-h-60`}>
       <p className="flex justify-end gap-5 text-xl">
         <button onClick={onMarkAsdone}>
           <IoCheckmarkDone />
