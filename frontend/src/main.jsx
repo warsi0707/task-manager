@@ -7,7 +7,10 @@ createRoot(document.getElementById("root")).render(
   // <StrictMode>
     // <div class=" h-full w-full bg-white">
     //   <div class=" -translate-x-[30%] translate-y-[20%] rounded-full bg-[rgba(173,109,244,0.5)] opacity-50 blur-[80px]">
-        <App />
+    <div className="w-full min-h-screen bg-blue-400">
+  <App />
+    </div>
+      
     //   </div>
     // </div>
   // </StrictMode>
